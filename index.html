@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>최현희의 책상</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#FBFAF7">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect width='180' height='180' rx='44' fill='%23FBFAF7'/%3E%3Ccircle cx='64' cy='64' r='30' fill='%23BFE0D0'/%3E%3Ccircle cx='118' cy='64' r='30' fill='%23F3D2BE'/%3E%3Ccircle cx='64' cy='118' r='30' fill='%23CFC9EC'/%3E%3Ccircle cx='118' cy='118' r='30' fill='%23F7E3AE'/%3E%3C/svg%3E">
+<style>
+  :root{
+    --ink:#3B3A38;
+    --muted:#9A978F;
+    --paper:#FBFAF7;
+    --glass:rgba(255,255,255,.72);
+    --line:#EAE6DD;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0;padding:0}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:"Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;
+    -webkit-text-size-adjust:100%;
+    -webkit-font-smoothing:antialiased;
+    line-height:1.35;
+    display:flex;flex-direction:column;
+    overflow:hidden;
+    position:relative;
+  }
+  @supports (height:100dvh){ body{height:100dvh} }
+
+
+  header{
+    flex:0 0 auto;text-align:center;
+    padding:calc(20px + env(safe-area-inset-top)) 18px 14px;
+  }
+  .kicker{
+    display:inline-block;
+    margin:0 0 9px;padding:5px 13px 6px;
+    border-radius:3px;
+    background:var(--glass);
+    border:1px solid rgba(255,255,255,.9);
+    box-shadow:0 2px 10px -4px rgba(59,58,56,.18);
+    font-size:11px;font-weight:600;letter-spacing:.14em;
+    color:var(--muted);text-transform:uppercase;
+  }
+  h1{
+    margin:0;
+    font-family:"Gowun Batang",serif;
+    font-size:clamp(25px,6.6vw,42px);
+    font-weight:700;letter-spacing:-0.02em;line-height:1.14;
+  }
+  .sub{
+    margin:8px 0 0;color:var(--muted);
+    font-family:"Gowun Batang",serif;
+    font-size:clamp(12px,3vw,15px);font-weight:400;
+  }
+
+  .board{
+    flex:1 1 auto;min-height:0;
+    display:grid;
+    grid-template-columns:repeat(var(--cols),minmax(0,1fr));
+    gap:16px;
+    padding:2px 16px calc(14px + env(safe-area-inset-bottom));
+  }
+  .col{
+    display:flex;flex-direction:column;
+    min-width:0;min-height:0;
+    padding:2px 2px 0;
+    overflow:hidden;
+  }
+  .col.wide{grid-column:1 / -1}
+
+  .col h2{
+    flex:0 0 auto;margin:0 0 9px;text-align:center;line-height:1.15;
+    padding-bottom:8px;border-bottom:1px solid var(--line);
+  }
+  .col h2 .en{
+    display:block;color:var(--deep);
+    font-size:clamp(11px,3vw,15.5px);
+    font-weight:700;letter-spacing:.05em;
+  }
+  .col h2 .ko{
+    display:block;margin-top:2px;color:var(--deep);
+    font-family:"Gowun Batang",serif;
+    font-size:clamp(10px,2.5vw,12.5px);
+    font-weight:400;opacity:.62;word-break:keep-all;
+  }
+
+  .items{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;gap:6px}
+  .col.wide .items{flex-direction:row}
+  .col.wide .items > *{flex:1 1 0}
+
+  .subh{
+    flex:0 0 auto;margin:7px 3px 2px;
+    font-size:clamp(9px,2.3vw,11px);
+    font-weight:600;letter-spacing:.06em;
+    color:var(--deep);opacity:.5;
+    text-align:center;word-break:keep-all;
+  }
+  .subh:first-child{margin-top:0}
+
+  .tile{
+    flex:1 1 0;
+    display:flex;flex-direction:column;
+    align-items:center;justify-content:center;gap:7px;
+    min-height:54px;padding:9px 6px;
+    border-radius:4px;
+    background:var(--tintA);
+    border:1px solid var(--tintB);
+    box-shadow:none;
+    color:var(--deep);
+    text-decoration:none;text-align:center;
+    transition:transform .15s cubic-bezier(.3,1.4,.5,1), box-shadow .15s ease, background .15s ease;
+  }
+  .tile:active{transform:scale(.955);background:var(--tintB)}
+  .tile:focus-visible{outline:2.5px solid var(--deep);outline-offset:-2px}
+  .tile .mark{
+    flex:0 0 auto;
+    width:clamp(24px,6.4vw,34px);height:clamp(24px,6.4vw,34px);
+    background:none;
+    display:grid;place-items:center;
+    font-size:clamp(15px,4vw,22px);line-height:1;
+  }
+  .tile .name{
+    display:block;
+    font-size:clamp(10px,2.7vw,14.5px);
+    font-weight:600;letter-spacing:-0.025em;
+    word-break:keep-all;line-height:1.22;
+  }
+  .tile .desc{display:none}
+  .tile.empty{background:rgba(255,255,255,.45);color:var(--muted)}
+
+  @media (min-width:640px) and (min-height:560px){
+    .board{gap:26px;padding:4px 26px 20px}
+    .col{padding:2px}
+    .items{gap:10px}
+    .tile{border-radius:5px;gap:10px;padding:14px 10px}
+    .tile .desc{
+      display:block;margin-top:1px;
+      font-size:11.5px;font-weight:400;opacity:.58;
+      word-break:keep-all;line-height:1.3;
+    }
+  }
+
+  /* ══ 항목이 많은 페이지: 가로 줄 (역시 한 화면) ══ */
+  body.rows .col{overflow:hidden}
+  body.rows .items{gap:4px}
+  body.rows .tile{
+    flex:1 1 0;min-height:0;
+    flex-direction:row;
+    align-items:center;justify-content:flex-start;
+    gap:9px;text-align:left;
+    padding:7px 10px;border-radius:4px;
+  }
+  body.rows .tile .mark{
+    width:clamp(28px,7vw,38px);height:clamp(28px,7vw,38px);
+    font-size:clamp(14px,3.6vw,19px);
+  }
+  body.rows .tile .txt{min-width:0}
+  body.rows .tile .name{font-size:clamp(10.5px,2.7vw,14px)}
+  body.rows .subh{text-align:left;margin-left:5px}
+  @media (min-width:640px){
+    body.rows .tile .desc{display:block;font-size:11px;font-weight:400;opacity:.55;margin-top:2px}
+  }
+
+  /* ── 계정 안내 줄 ── */
+  .account{
+    flex:0 0 auto;
+    display:flex;flex-direction:column;gap:5px;
+    padding:0 16px 10px;
+  }
+  .acc-row{
+    flex:0 0 auto;
+    display:flex;align-items:center;gap:8px;min-width:0;
+    padding:7px 9px;
+    background:#fff;border:1px solid var(--line);border-radius:4px;
+  }
+  .acc-row .lab{
+    flex:0 0 auto;font-size:10.5px;font-weight:700;
+    color:var(--muted);letter-spacing:.04em;
+  }
+  .acc-row .val{
+    flex:1 1 auto;min-width:0;
+    font-size:clamp(11px,2.9vw,13.5px);font-weight:600;
+    overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  }
+  .acc-row .cp{
+    flex:0 0 auto;padding:5px 9px;font-size:11.5px;font-weight:600;
+    border:1px solid var(--line);border-radius:3px;background:var(--paper);
+    color:var(--ink);cursor:pointer;
+  }
+  .acc-row .cp:active{background:var(--line)}
+  @media (max-height:660px){ .account{gap:4px;padding-bottom:7px} .acc-row{padding:4px 8px} }
+
+  /* ── 바탕화면(Lively)용: 가운데로 모으고 작업 표시줄 자리 비우기 ── */
+  body.wall header{width:100%;max-width:900px;margin:0 auto;padding-top:34px}
+  body.wall .account{width:100%;max-width:900px;margin:0 auto}
+  body.wall .board{
+    width:100%;max-width:900px;margin:0 auto;
+    padding-bottom:86px;
+  }
+  body.wall .col{padding-left:12px;padding-right:12px}
+  body.wall .gear{bottom:78px}
+  body.wall .toast{bottom:130px}
+
+  /* ── 학생용: 고운바탕체 + 박스 안에 딱 맞는 크기 ── */
+  body.big .tile{overflow:hidden;gap:3px;padding:7px 6px}
+  body.big .tile .mark{
+    width:clamp(24px,6vw,34px);height:clamp(24px,6vw,34px);
+    font-size:clamp(16px,4.2vw,23px);
+  }
+  body.big .tile .name{
+    font-family:"Gowun Batang",serif;
+    font-size:clamp(11px,2.9vw,16px);
+    font-weight:700;line-height:1.1;letter-spacing:-0.01em;
+  }
+  body.big .tile .desc{font-family:"Gowun Batang",serif;line-height:1.15}
+  body.big .col h2 .en{
+    font-family:"Gowun Batang",serif;
+    font-size:clamp(11px,2.9vw,16px);font-weight:700;letter-spacing:0;
+  }
+  body.big .col h2 .ko{font-size:clamp(9.5px,2.4vw,12px)}
+  body.big .acc-row .val{font-family:"Gowun Batang",serif;font-weight:700}
+  @media (min-width:640px) and (min-height:560px){
+    body.big .tile{gap:4px;padding:9px 8px}
+    body.big .tile .desc{font-size:11px;opacity:.6}
+  }
+
+  /* ── 맨 아래 한 줄 ── */
+  .credit{
+    flex:0 0 auto;
+    text-align:center;
+    font-family:"Gowun Batang",serif;
+    font-size:clamp(10.5px,2.6vw,13px);
+    color:var(--muted);
+    padding:2px 56px calc(9px + env(safe-area-inset-bottom));
+    line-height:1.4;word-break:keep-all;
+  }
+  @media (max-height:660px){ .credit{padding-bottom:6px;font-size:10px} }
+
+  .gear{
+    position:fixed;
+    right:calc(12px + env(safe-area-inset-right));
+    bottom:calc(12px + env(safe-area-inset-bottom));
+    width:42px;height:42px;padding:0;border-radius:6px;
+    border:1px solid rgba(255,255,255,.9);
+    background:var(--glass);
+    color:var(--muted);font-size:17px;line-height:1;
+    display:grid;place-items:center;
+    box-shadow:0 8px 20px -8px rgba(59,58,56,.45);
+    cursor:pointer;z-index:20;
+  }
+  .gear:focus-visible{outline:2.5px solid var(--ink);outline-offset:2px}
+
+  button{
+    font-family:inherit;font-size:15px;font-weight:600;
+    border-radius:5px;border:1px solid var(--line);
+    background:#fff;color:var(--ink);
+    padding:12px 17px;cursor:pointer;
+  }
+  button:focus-visible{outline:2.5px solid var(--ink);outline-offset:2px}
+  .btn-main{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .row{display:flex;gap:8px;flex-wrap:wrap}
+  dialog{
+    border:none;border-radius:8px;padding:0;
+    width:min(560px,94vw);max-height:88vh;
+    background:var(--paper);color:var(--ink);
+    box-shadow:0 34px 80px -26px rgba(59,58,56,.5);
+  }
+  dialog::backdrop{background:rgba(59,58,56,.38)}
+  .sheet{padding:26px 20px calc(22px + env(safe-area-inset-bottom));overflow:auto;max-height:88vh}
+  .sheet h2{margin:0 0 6px;font-size:21px;font-weight:700;letter-spacing:-0.035em}
+  .sheet p.note{margin:0 0 18px;font-size:13px;color:var(--muted);line-height:1.65}
+  .item{background:#fff;border:1px solid var(--line);border-radius:6px;padding:16px;margin-bottom:10px}
+  .item label{display:block;font-size:12px;color:var(--muted);font-weight:600;margin:11px 0 5px}
+  .item label:first-of-type{margin-top:0}
+  .item input{
+    width:100%;font-family:inherit;font-size:16px;padding:10px 13px;
+    border:1px solid var(--line);border-radius:4px;background:var(--paper);color:var(--ink);
+  }
+  .item input:focus-visible{outline:2px solid var(--ink);outline-offset:1px}
+  .item .ops{display:flex;gap:6px;margin-top:14px}
+  .item .ops button{flex:0 0 auto;padding:9px 13px;font-size:14px}
+  .item .ops .del{margin-left:auto;color:#BB6070}
+  textarea{
+    width:100%;height:180px;font-size:13px;line-height:1.5;
+    font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+    padding:14px;border:1px solid var(--line);border-radius:6px;
+    background:#fff;color:var(--ink);
+  }
+  .toast{
+    position:fixed;left:50%;bottom:72px;transform:translateX(-50%);
+    background:var(--ink);color:#fff;padding:12px 20px;border-radius:6px;
+    font-size:14px;font-weight:500;opacity:0;pointer-events:none;
+    transition:opacity .2s;z-index:99;
+  }
+  .toast.on{opacity:1}
+
+  /* 세로가 짧은 기기에서 한 화면에 담기도록 */
+  @media (max-height:780px){
+    header{padding-top:calc(12px + env(safe-area-inset-top));padding-bottom:9px}
+    .kicker{margin-bottom:6px;padding:4px 11px 5px;font-size:10px}
+    h1{font-size:clamp(21px,5.6vw,34px)}
+    .sub{margin-top:5px;font-size:11.5px}
+    body.rows .items{gap:3px}
+    body.rows .tile{padding:5px 9px}
+    body.rows .subh{margin:5px 0 1px 5px}
+    .col h2{margin-bottom:7px;padding-bottom:6px}
+  }
+  @media (max-height:660px){
+    .sub{display:none}
+    body.rows .tile{padding:4px 8px}
+  }
+
+  @media (prefers-reduced-motion:no-preference){
+    .col{animation:rise .55s cubic-bezier(.21,.9,.28,1) both}
+  }
+  @keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+  @media (prefers-reduced-motion:reduce){.tile{transition:none}}
+
+  /* ── 글씨 키우기 + 고양이 자리 만들기 ── */
+  header,.account,.board,.credit{position:relative;z-index:1}
+  body.rows .items{flex:0 0 auto;justify-content:flex-start;gap:10px}
+  body.rows .tile{flex:0 0 auto;min-height:78px;padding:14px 16px;gap:12px;overflow-wrap:anywhere}
+  body.rows .tile .mark{width:clamp(32px,7.5vw,42px);height:clamp(32px,7.5vw,42px);font-size:clamp(20px,4.6vw,26px)}
+  body.rows .tile .name{font-size:clamp(14px,3.9vw,20px);font-weight:700}
+  body.rows .tile .desc{font-size:13px}
+  @media (max-width:639px){
+    body.rows .tile{flex-direction:column;justify-content:center;text-align:center;gap:6px;min-height:86px;padding:12px 8px}
+    body.rows .tile .name{font-size:clamp(13px,3.9vw,16px)}
+  }
+  .cats{
+    position:fixed;left:0;right:0;bottom:0;z-index:0;
+    height:min(36vh,250px);width:100%;
+    pointer-events:none;
+  }
+  @media (max-height:520px){.cats{display:none}}
+</style>
+</head>
+<body class="rows">
+
+<!-- ════════════════════════════════════════════════════════
+     ▼ 여기만 고치면 됩니다.
+       name  이름          desc  설명 (넓은 화면에서만)
+       url   주소          icon  아이콘
+       group 큰 칸 이름 · "영어|한글" 로 쓰면 두 줄
+       sub   칸 안의 작은 제목      wide  true 면 가로로 길게
+     ════════════════════════════════════════════════════════ -->
+<script>
+var LINKS = [
+  {
+    "group": "Work|업무",
+    "sub": "",
+    "name": "업무포털 메인",
+    "desc": "",
+    "url": "https://goe.eduptl.kr/bpm_man_mn00_001.do",
+    "icon": "🏫"
+  },
+  {
+    "group": "Work|업무",
+    "sub": "",
+    "name": "연수원",
+    "desc": "",
+    "url": "https://www.gtie.go.kr/",
+    "icon": "🎓"
+  },
+  {
+    "group": "Class|수업",
+    "sub": "",
+    "name": "온라인공동교육과정",
+    "desc": "",
+    "url": "https://online.goe.go.kr/goecr",
+    "icon": "💻"
+  }
+];
+
+var PAGE_TITLE  = "최현희의 책상";
+var PAGE_SUB    = "";
+var PAGE_KICKER = "MY LINKS";
+
+/* 계정 안내 · 필요 없으면 null 로 두세요 */
+var ACCOUNT = null;
+
+/* 맨 아래 한 줄 · 필요 없으면 "" 로 두세요 */
+var PAGE_CREDIT = "";
+</script>
+<!-- ▲ 고치는 부분 끝 ─────────────────────────────────────── -->
+
+
+<svg class="cats" viewBox="0 0 600 220" preserveAspectRatio="xMidYMax meet" aria-hidden="true">
+  <g fill="none" stroke="#3B3A38" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <!-- 바닥 -->
+    <path d="M10 212 H590" stroke="#EAE6DD" stroke-width="4"/>
+
+    <!-- 하늘의 작은 장식 -->
+    <path d="M60 40 l4 9 9 4 -9 4 -4 9 -4 -9 -9 -4 9 -4z" fill="#F7E3AE" stroke="none"/>
+    <path d="M540 60 l3 7 7 3 -7 3 -3 7 -3 -7 -7 -3 7 -3z" fill="#BFE0D0" stroke="none"/>
+    <path d="M300 30 c-6 -10 -20 -2 -10 8 l10 9 10 -9 c10 -10 -4 -18 -10 -8z" fill="#F3D2BE" stroke="none"/>
+
+    <!-- 고양이 1 : 크림색, 앉은 모습 -->
+    <g>
+      <path d="M160 190 C205 190 205 150 178 148" />
+      <ellipse cx="110" cy="170" rx="50" ry="42" fill="#FFF3E0"/>
+      <path d="M62 120 L66 78 L96 100 Z" fill="#FFF3E0"/>
+      <path d="M158 120 L154 78 L124 100 Z" fill="#FFF3E0"/>
+      <path d="M71 106 L72 90 L85 100 Z" fill="#F3B9C2" stroke="none"/>
+      <path d="M149 106 L148 90 L135 100 Z" fill="#F3B9C2" stroke="none"/>
+      <ellipse cx="110" cy="118" rx="46" ry="38" fill="#FFF3E0"/>
+      <circle cx="92" cy="118" r="4.5" fill="#3B3A38" stroke="none"/>
+      <circle cx="128" cy="118" r="4.5" fill="#3B3A38" stroke="none"/>
+      <circle cx="82" cy="130" r="7" fill="#F3B9C2" stroke="none" opacity=".7"/>
+      <circle cx="138" cy="130" r="7" fill="#F3B9C2" stroke="none" opacity=".7"/>
+      <path d="M106 127 h8 l-4 5z" fill="#E58C9A" stroke="#E58C9A" stroke-width="1.5"/>
+      <path d="M110 132 q-5 6 -10 2 M110 132 q5 6 10 2" stroke-width="2.5"/>
+      <path d="M70 128 l-22 -4 M70 134 l-22 4 M150 128 l22 -4 M150 134 l22 4" stroke-width="2" opacity=".55"/>
+      <path d="M92 206 v-14 M128 206 v-14" stroke-width="3"/>
+    </g>
+
+    <!-- 고양이 2 : 보라색 줄무늬, 식빵 자세 -->
+    <g>
+      <path d="M215 211 C205 190 235 168 290 168 C350 168 385 190 375 211 Z" fill="#E5E0F6"/>
+      <path d="M262 172 v14 M290 170 v16 M318 172 v14" stroke="#9C92CC" stroke-width="3"/>
+      <path d="M382 205 C415 205 420 170 398 168" />
+      <path d="M262 112 L262 70 L292 92 Z" fill="#E5E0F6"/>
+      <path d="M338 112 L338 70 L308 92 Z" fill="#E5E0F6"/>
+      <path d="M268 98 L268 82 L281 92 Z" fill="#F3B9C2" stroke="none"/>
+      <path d="M332 98 L332 82 L319 92 Z" fill="#F3B9C2" stroke="none"/>
+      <ellipse cx="300" cy="136" rx="50" ry="40" fill="#E5E0F6"/>
+      <path d="M290 98 v10 M300 96 v12 M310 98 v10" stroke="#9C92CC" stroke-width="3"/>
+      <path d="M277 134 q6 -7 12 0 M311 134 q6 -7 12 0" stroke-width="3.2"/>
+      <circle cx="268" cy="148" r="7" fill="#F3B9C2" stroke="none" opacity=".7"/>
+      <circle cx="332" cy="148" r="7" fill="#F3B9C2" stroke="none" opacity=".7"/>
+      <path d="M296 144 h8 l-4 5z" fill="#E58C9A" stroke="#E58C9A" stroke-width="1.5"/>
+      <path d="M300 149 q-5 6 -10 2 M300 149 q5 6 10 2" stroke-width="2.5"/>
+      <path d="M258 146 l-22 -4 M258 152 l-22 4 M342 146 l22 -4 M342 152 l22 4" stroke-width="2" opacity=".55"/>
+    </g>
+
+    <!-- 고양이 3 : 복숭아색, 꼬리 세우고 -->
+    <g>
+      <path d="M445 190 C420 170 440 130 462 140" stroke-width="3" />
+      <ellipse cx="500" cy="172" rx="46" ry="40" fill="#FCE3D3"/>
+      <path d="M456 124 L458 84 L486 104 Z" fill="#FCE3D3"/>
+      <path d="M544 124 L542 84 L514 104 Z" fill="#FCE3D3"/>
+      <path d="M463 110 L464 95 L476 103 Z" fill="#F3B9C2" stroke="none"/>
+      <path d="M537 110 L536 95 L524 103 Z" fill="#F3B9C2" stroke="none"/>
+      <ellipse cx="500" cy="124" rx="44" ry="36" fill="#FCE3D3"/>
+      <path d="M480 108 q4 -6 8 0 M512 108 q4 -6 8 0" stroke="#D98E66" stroke-width="3"/>
+      <circle cx="484" cy="122" r="4.5" fill="#3B3A38" stroke="none"/>
+      <circle cx="516" cy="122" r="4.5" fill="#3B3A38" stroke="none"/>
+      <circle cx="473" cy="134" r="7" fill="#F3B9C2" stroke="none" opacity=".7"/>
+      <circle cx="527" cy="134" r="7" fill="#F3B9C2" stroke="none" opacity=".7"/>
+      <path d="M496 131 h8 l-4 5z" fill="#E58C9A" stroke="#E58C9A" stroke-width="1.5"/>
+      <path d="M500 136 q-5 6 -10 2 M500 136 q5 6 10 2" stroke-width="2.5"/>
+      <path d="M462 132 l-20 -4 M462 138 l-20 4 M538 132 l20 -4 M538 138 l20 4" stroke-width="2" opacity=".55"/>
+      <path d="M480 206 v-12 M520 206 v-12" stroke-width="3"/>
+      <!-- 물고기 장난감 -->
+      <path d="M555 200 q10 -9 22 0 q-12 9 -22 0z M577 200 l9 -6 v12z" fill="#BFE0D0"/>
+    </g>
+  </g>
+</svg>
+
+<header>
+  <span class="kicker" id="kicker">MY LINKS</span>
+  <h1 id="ttl">최현희의 책상</h1>
+  <p class="sub" id="sub"></p>
+</header>
+
+<section class="account" id="account" hidden></section>
+
+<main class="board" id="board"></main>
+
+<p class="credit" id="credit" hidden></p>
+
+<button class="gear" id="openEdit" aria-label="링크 관리">⚙</button>
+
+<dialog id="editor">
+  <div class="sheet">
+    <h2>링크 관리</h2>
+    <p class="note">
+      오른쪽 아래 톱니바퀴에서 링크를 고치세요. 다 되면 <b>코드 만들기 → 코드 복사</b>.<br><br>
+      고친 내용은 <b>이 기기에만</b> 저장됩니다. 다른 사람 화면에도 똑같이 보이게 하려면
+      아래 <b>코드 만들기</b>로 나온 내용을 GitHub 파일에 붙여넣으세요.
+    </p>
+
+    <div id="items"></div>
+
+    <div class="row" style="margin:16px 0 22px">
+      <button id="add">링크 추가</button>
+      <button class="btn-main" id="save">저장</button>
+      <button id="close">닫기</button>
+    </div>
+
+    <div class="row" style="margin-bottom:12px">
+      <button id="export">코드 만들기</button>
+      <button id="reset">처음 상태로</button>
+    </div>
+    <textarea id="code" readonly hidden></textarea>
+    <div class="row" id="copyRow" hidden style="margin-top:10px">
+      <button class="btn-main" id="copy">코드 복사</button>
+    </div>
+  </div>
+</dialog>
+
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+  var KEY = "mylinks.v1";
+  var PALETTE = [{"a": "#E5E0F6", "b": "#DFD9F2", "deep": "#483D79"}, {"a": "#EDF6F0", "b": "#D5E9DD", "deep": "#33604D"}, {"a": "#FBF3E1", "b": "#F2E3C2", "deep": "#6D5527"}, {"a": "#FCEFE8", "b": "#F5DCCF", "deep": "#7E4835"}];
+
+  var board  = document.getElementById("board");
+  var editor = document.getElementById("editor");
+  var itemsEl= document.getElementById("items");
+  var codeEl = document.getElementById("code");
+  var copyRow= document.getElementById("copyRow");
+  var toastEl= document.getElementById("toast");
+
+  var data = load();
+  document.getElementById("ttl").textContent = PAGE_TITLE;
+  var subEl = document.getElementById("sub");
+  if(PAGE_SUB){ subEl.textContent = PAGE_SUB; } else { subEl.remove(); }
+  document.getElementById("kicker").textContent = PAGE_KICKER;
+  document.title = PAGE_TITLE;
+  render();
+  renderAccount();
+  var creditEl = document.getElementById("credit");
+  if(PAGE_CREDIT){ creditEl.textContent = PAGE_CREDIT; creditEl.hidden = false; }
+  else{ creditEl.remove(); }
+
+  function copyText(text){
+    var ta = document.createElement("textarea");
+    ta.value = text;
+    ta.style.position = "fixed";
+    ta.style.opacity = "0";
+    document.body.appendChild(ta);
+    ta.select();
+    ta.setSelectionRange(0, 99999);
+    var ok = false;
+    try{ ok = document.execCommand("copy"); }catch(e){}
+    document.body.removeChild(ta);
+    if(ok){ toast("복사했습니다"); return; }
+    if(navigator.clipboard){
+      navigator.clipboard.writeText(text).then(
+        function(){ toast("복사했습니다"); },
+        function(){ toast("길게 눌러 직접 복사해 주세요"); });
+    }else{
+      toast("길게 눌러 직접 복사해 주세요");
+    }
+  }
+
+  function renderAccount(){
+    var box = document.getElementById("account");
+    if(!ACCOUNT || !ACCOUNT.length){ box.remove(); return; }
+    box.hidden = false;
+    ACCOUNT.forEach(function(row){
+      var el = document.createElement("div");
+      el.className = "acc-row";
+      el.innerHTML = '<span class="lab"></span><span class="val"></span><button class="cp">복사</button>';
+      el.querySelector(".lab").textContent = row.label;
+      el.querySelector(".val").textContent = row.value;
+      el.querySelector(".cp").addEventListener("click", function(){ copyText(row.value); });
+      box.appendChild(el);
+    });
+  }
+
+  function load(){
+    try{
+      var raw = localStorage.getItem(KEY);
+      if(raw){
+        var parsed = JSON.parse(raw);
+        if(Array.isArray(parsed) && parsed.length) return parsed;
+      }
+    }catch(e){}
+    return JSON.parse(JSON.stringify(LINKS));
+  }
+  function store(){
+    try{ localStorage.setItem(KEY, JSON.stringify(data)); }
+    catch(e){ toast("이 브라우저에 저장할 수 없습니다"); }
+  }
+  function toast(msg){
+    toastEl.textContent = msg;
+    toastEl.classList.add("on");
+    clearTimeout(toast.t);
+    toast.t = setTimeout(function(){ toastEl.classList.remove("on"); }, 1900);
+  }
+
+  function render(){
+    board.innerHTML = "";
+    var order = [], buckets = {}, wide = {};
+    data.forEach(function(it){
+      var g = (it.group || "").trim() || "그 밖에";
+      if(!buckets[g]){ buckets[g] = []; order.push(g); }
+      if(it.wide){ wide[g] = true; }
+      buckets[g].push(it);
+    });
+
+    var wideCount = order.filter(function(g){ return wide[g]; }).length;
+    var cols = order.length - wideCount;
+    board.style.setProperty("--cols", cols > 0 ? cols : 1);
+
+    /* 가로로 긴 칸은 적어둔 자리 그대로, 나머지는 한 줄에 나란히 */
+    var rows = [], normalPlaced = false;
+    order.forEach(function(g){
+      if(wide[g]){ rows.push("auto"); }
+      else if(!normalPlaced){ rows.push("1fr"); normalPlaced = true; }
+    });
+    board.style.gridTemplateRows = rows.join(" ") || "1fr";
+
+    order.forEach(function(g, gi){
+      var c = PALETTE[gi % PALETTE.length];
+      var col = document.createElement("section");
+      col.className = "col" + (wide[g] ? " wide" : "");
+      col.style.setProperty("--tintA", c.a);
+      col.style.setProperty("--tintB", c.b);
+      col.style.setProperty("--deep", c.deep);
+      col.style.animationDelay = (gi * 70) + "ms";
+
+      var parts = g.split("|");
+      var h = document.createElement("h2");
+      var en = document.createElement("span");
+      en.className = "en";
+      en.textContent = parts[0].trim();
+      h.appendChild(en);
+      if(parts[1]){
+        var ko = document.createElement("span");
+        ko.className = "ko";
+        ko.textContent = parts[1].trim();
+        h.appendChild(ko);
+      }
+      col.appendChild(h);
+
+      var list = document.createElement("div");
+      list.className = "items";
+      var lastSub = null;
+
+      buckets[g].forEach(function(it){
+        var s = (it.sub || "").trim();
+        if(s && s !== lastSub){
+          var sh = document.createElement("div");
+          sh.className = "subh";
+          sh.textContent = s;
+          list.appendChild(sh);
+          lastSub = s;
+        }
+        var has = it.url && it.url.trim();
+        var el = document.createElement(has ? "a" : "div");
+        el.className = "tile" + (has ? "" : " empty");
+        if(has){
+          el.href = it.url.trim();
+          el.rel = "noopener";
+        }else{
+          el.tabIndex = 0;
+          el.addEventListener("click", function(){ toast("주소가 아직 비어 있습니다"); });
+        }
+        el.innerHTML =
+          '<span class="mark"></span>' +
+          '<span class="txt"><span class="name"></span><span class="desc"></span></span>';
+        el.querySelector(".mark").textContent = it.icon || "\uD83D\uDD17";
+        el.querySelector(".name").textContent = it.name || "이름 없음";
+        el.querySelector(".desc").textContent = has ? (it.desc || "") : "주소 없음";
+        list.appendChild(el);
+      });
+
+      col.appendChild(list);
+      board.appendChild(col);
+    });
+  }
+
+  function drawEditor(){
+    itemsEl.innerHTML = "";
+    data.forEach(function(it, i){
+      var box = document.createElement("div");
+      box.className = "item";
+      box.innerHTML =
+        '<label>이름</label><input data-k="name" type="text" placeholder="예) 컵라면 활동지">' +
+        '<label>주소</label><input data-k="url" type="url" inputmode="url" autocapitalize="off" autocorrect="off" placeholder="https://deborah1220.github.io/저장소이름/">' +
+        '<label>설명</label><input data-k="desc" type="text" placeholder="예) 1·2학년 공통">' +
+        '<label>큰 칸 이름</label><input data-k="group" type="text" placeholder="예) Class|수업">' +
+        '<label>작은 제목</label><input data-k="sub" type="text" placeholder="예) 학생 배포용">' +
+        '<label>아이콘</label><input data-k="icon" type="text" maxlength="4" placeholder="🍜">' +
+        '<div class="ops">' +
+          '<button data-op="up">↑</button>' +
+          '<button data-op="down">↓</button>' +
+          '<button class="del" data-op="del">삭제</button>' +
+        '</div>';
+      box.querySelectorAll("input").forEach(function(inp){
+        inp.value = it[inp.dataset.k] || "";
+        inp.addEventListener("input", function(){ it[inp.dataset.k] = inp.value; });
+      });
+      box.querySelectorAll("[data-op]").forEach(function(btn){
+        btn.addEventListener("click", function(){
+          var op = btn.dataset.op;
+          if(op === "del"){ data.splice(i,1); }
+          if(op === "up" && i > 0){ data.splice(i-1,0,data.splice(i,1)[0]); }
+          if(op === "down" && i < data.length-1){ data.splice(i+1,0,data.splice(i,1)[0]); }
+          drawEditor();
+        });
+      });
+      itemsEl.appendChild(box);
+    });
+    if(!data.length){
+      itemsEl.innerHTML = '<p class="note">링크가 없습니다. 아래 <b>링크 추가</b>를 눌러 시작하세요.</p>';
+    }
+  }
+
+  document.getElementById("openEdit").addEventListener("click", function(){
+    drawEditor();
+    codeEl.hidden = true; copyRow.hidden = true;
+    editor.showModal();
+  });
+  document.getElementById("close").addEventListener("click", function(){ editor.close(); });
+  document.getElementById("add").addEventListener("click", function(){
+    data.push({group:"", sub:"", name:"", desc:"", url:"", icon:"\uD83D\uDD17"});
+    drawEditor();
+    itemsEl.lastElementChild.querySelector("input").focus();
+  });
+  document.getElementById("save").addEventListener("click", function(){
+    store(); render(); editor.close(); toast("저장했습니다");
+  });
+  document.getElementById("reset").addEventListener("click", function(){
+    if(!confirm("파일에 적힌 처음 상태로 되돌립니다. 계속할까요?")) return;
+    try{ localStorage.removeItem(KEY); }catch(e){}
+    data = JSON.parse(JSON.stringify(LINKS));
+    drawEditor(); render(); toast("처음 상태로 되돌렸습니다");
+  });
+
+  document.getElementById("export").addEventListener("click", function(){
+    var lines = data.map(function(it){
+      return "  {\n" +
+        '    group: ' + JSON.stringify(it.group || "") + ",\n" +
+        (it.sub ? '    sub:   ' + JSON.stringify(it.sub) + ",\n" : "") +
+        (it.wide ? "    wide:  true,\n" : "") +
+        '    name:  ' + JSON.stringify(it.name  || "") + ",\n" +
+        '    desc:  ' + JSON.stringify(it.desc  || "") + ",\n" +
+        '    url:   ' + JSON.stringify(it.url   || "") + ",\n" +
+        '    icon:  ' + JSON.stringify(it.icon  || "\uD83D\uDD17") + "\n" +
+        "  }";
+    }).join(",\n");
+    codeEl.value = "var LINKS = [\n" + lines + "\n];";
+    codeEl.hidden = false; copyRow.hidden = false;
+    codeEl.scrollIntoView({block:"nearest"});
+  });
+
+  document.getElementById("copy").addEventListener("click", function(){
+    codeEl.hidden = false;
+    codeEl.removeAttribute("readonly");
+    codeEl.select();
+    codeEl.setSelectionRange(0, 99999);
+    var ok = false;
+    try{ ok = document.execCommand("copy"); }catch(e){}
+    codeEl.setAttribute("readonly","");
+    if(navigator.clipboard && !ok){
+      navigator.clipboard.writeText(codeEl.value).then(
+        function(){ toast("복사했습니다"); },
+        function(){ toast("길게 눌러 직접 복사해 주세요"); });
+    }else{
+      toast(ok ? "복사했습니다" : "길게 눌러 직접 복사해 주세요");
+    }
+  });
+})();
+</script>
+</body>
+</html>

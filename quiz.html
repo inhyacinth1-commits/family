@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>피임법의 종류 퀴즈</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#FBFAF7">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap">
+<style>
+  :root{
+    --ink:#3B3A38;--muted:#8B887F;--paper:#FBFAF7;--line:#EAE6DD;
+    --accent:#483D79;--accentBg:#EEEAFA;
+    --ok:#2F6B4F;--okBg:#E3F3EA;--no:#A5424F;--noBg:#FBE8EA;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;background:var(--paper);color:var(--ink);
+    font-family:"Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;
+    font-size:19px;line-height:1.55;-webkit-font-smoothing:antialiased;
+    padding-bottom:calc(40px + env(safe-area-inset-bottom));
+  }
+  .wrap{max-width:720px;margin:0 auto;padding:0 16px}
+  [hidden]{display:none!important}
+
+  .progress{
+    position:sticky;top:0;z-index:10;
+    padding:calc(10px + env(safe-area-inset-top)) 16px 10px;
+    background:rgba(251,250,247,.94);
+    -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  .progress .inner{max-width:720px;margin:0 auto;display:flex;align-items:center;gap:12px}
+  .progress .txt{flex:0 0 auto;font-size:18px;font-weight:700;color:var(--accent);min-width:64px}
+  .progress .pts{flex:0 0 auto;font-size:16px;font-weight:600;color:var(--muted)}
+  .bar{flex:1 1 auto;height:12px;border-radius:99px;background:var(--line);overflow:hidden}
+  .bar i{display:block;height:100%;width:0;background:#7BB89B;border-radius:99px;transition:width .3s}
+
+  header{text-align:center;padding:30px 0 8px}
+  .kicker{
+    display:inline-block;margin:0 0 10px;padding:5px 14px 6px;border-radius:4px;
+    background:#fff;border:1px solid var(--line);
+    font-size:14px;font-weight:600;letter-spacing:.1em;color:var(--muted);
+  }
+  h1{margin:0;font-family:"Gowun Batang",serif;font-size:34px;font-weight:700;letter-spacing:-0.02em;line-height:1.2}
+  .guide{margin:12px 0 0;color:var(--muted);font-family:"Gowun Batang",serif;font-size:19px;word-break:keep-all}
+
+  .card{margin:20px 0;padding:18px 16px;background:#fff;border:1px solid var(--line);border-radius:12px}
+  .card label{display:block;font-size:16px;font-weight:700;color:var(--muted);margin-bottom:6px}
+  .card .f+.f{margin-top:14px}
+  input[type=text]{
+    width:100%;font-family:inherit;color:var(--ink);font-size:20px;
+    padding:14px 16px;border:2px solid var(--line);border-radius:10px;background:var(--paper);
+    -webkit-appearance:none;appearance:none;
+  }
+  input[type=text]:focus{outline:none;border-color:var(--accent);background:#fff}
+
+  button{
+    font-family:inherit;font-size:21px;font-weight:700;
+    min-height:62px;padding:14px 18px;border-radius:12px;
+    border:2px solid var(--ink);background:#fff;color:var(--ink);cursor:pointer;width:100%;
+  }
+  button:active{transform:scale(.98)}
+  button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+  .btn-main{background:var(--ink);color:#fff}
+  .stack{display:flex;flex-direction:column;gap:12px;margin-top:22px}
+
+  /* 문제 */
+  .qno{margin:26px 0 6px;font-size:17px;font-weight:700;color:var(--accent)}
+  .qtext{margin:0 0 18px;font-size:23px;font-weight:700;line-height:1.5;letter-spacing:-0.02em;word-break:keep-all}
+  .opts{display:flex;flex-direction:column;gap:12px}
+  .opt{
+    display:flex;align-items:flex-start;gap:12px;text-align:left;
+    min-height:68px;padding:14px 16px;
+    font-size:20px;font-weight:600;line-height:1.45;word-break:keep-all;
+    border:2px solid var(--line);background:#fff;
+  }
+  .opt .n{
+    flex:0 0 auto;width:34px;height:34px;border-radius:50%;
+    display:grid;place-items:center;margin-top:-1px;
+    background:var(--accentBg);color:var(--accent);font-size:17px;font-weight:700;
+  }
+  .opt .t{flex:1 1 auto;min-width:0}
+  .opt .mk{flex:0 0 auto;font-size:24px;line-height:1.2}
+  .opt:disabled{cursor:default;opacity:1}
+  .opt:disabled:active{transform:none}
+  .opt.ok{border-color:var(--ok);background:var(--okBg);color:var(--ok)}
+  .opt.ok .n{background:var(--ok);color:#fff}
+  .opt.no{border-color:var(--no);background:var(--noBg);color:var(--no)}
+  .opt.no .n{background:var(--no);color:#fff}
+  .opt.dim{opacity:.5}
+
+  .fb{margin:18px 0 0;padding:16px;border-radius:12px;font-size:19px;line-height:1.6;word-break:keep-all}
+  .fb b{display:block;font-size:22px;margin-bottom:4px}
+  .fb.ok{background:var(--okBg);color:var(--ok)}
+  .fb.no{background:var(--noBg);color:var(--no)}
+  .fb span{color:var(--ink)}
+
+  /* 결과 */
+  .score{text-align:center;margin:26px 0 8px}
+  .score .big{font-family:"Gowun Batang",serif;font-size:76px;font-weight:700;line-height:1.1;color:var(--accent)}
+  .score .big small{font-size:34px;color:var(--muted);font-weight:400}
+  .score .who{margin-top:6px;font-size:20px;font-weight:700}
+  .score .msg{margin-top:8px;font-size:21px;font-family:"Gowun Batang",serif;word-break:keep-all}
+  .rev h2{margin:26px 0 10px;font-size:21px}
+  .rev .item{margin:0 0 12px;padding:14px 16px;background:#fff;border:1px solid var(--line);border-radius:12px;word-break:keep-all}
+  .rev .q{font-weight:700;margin-bottom:6px;font-size:18px}
+  .rev .a{font-size:18px;color:var(--ok);font-weight:700}
+  .rev .you{font-size:17px;color:var(--no);margin-bottom:4px}
+  .allok{padding:16px;border-radius:12px;background:var(--okBg);color:var(--ok);font-weight:700;text-align:center}
+
+  @media (max-width:380px){
+    body{font-size:18px}h1{font-size:30px}
+    .qtext{font-size:21px}.opt{font-size:19px}
+  }
+</style>
+</head>
+<body>
+
+<div class="progress" id="prog" hidden aria-live="polite">
+  <div class="inner">
+    <span class="txt" id="pcount">1 / 10</span>
+    <div class="bar"><i id="pfill"></i></div>
+    <span class="pts" id="ppts">0점</span>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- 시작 -->
+  <section id="start">
+    <header>
+      <span class="kicker">QUIZ</span>
+      <h1>피임법의 종류 퀴즈</h1>
+      <p class="guide">4개의 보기 중 정답을 골라요.<br>모두 풀면 점수가 나와요. (10문항)</p>
+    </header>
+    <div class="card">
+      <div class="f">
+        <label for="cls">학년 반 번호</label>
+        <input type="text" id="cls" inputmode="numeric" autocomplete="off" placeholder="2학년 3반 15번">
+      </div>
+      <div class="f">
+        <label for="who">이름</label>
+        <input type="text" id="who" autocomplete="name" placeholder="이름">
+      </div>
+    </div>
+    <div class="stack"><button class="btn-main" id="go">퀴즈 시작하기</button></div>
+  </section>
+
+  <!-- 문제 -->
+  <section id="quiz" hidden>
+    <p class="qno" id="qno"></p>
+    <h2 class="qtext" id="qtext"></h2>
+    <div class="opts" id="opts"></div>
+    <div class="fb" id="fb" hidden></div>
+    <div class="stack"><button class="btn-main" id="next" hidden>다음 문제</button></div>
+  </section>
+
+  <!-- 결과 -->
+  <section id="result" hidden>
+    <div class="score">
+      <div class="big"><span id="sc">0</span><small> / 10</small></div>
+      <div class="who" id="rwho"></div>
+      <div class="msg" id="rmsg"></div>
+    </div>
+    <div class="rev" id="rev"></div>
+    <div class="stack">
+      <button class="btn-main" id="again">처음부터 다시 풀기</button>
+      <button id="wrongOnly" hidden>틀린 문제만 다시 풀기</button>
+    </div>
+  </section>
+
+</div>
+
+<script>
+(function(){
+  /* 정답은 answer(보기 번호, 0부터) */
+  var ALL = [
+    {q:"복합경구피임제의 주된 작용 기전은 무엇인가요?",
+     o:["배란 억제","정자를 직접 죽임","자궁경부 입구를 막음","자궁내막에 이물 반응을 일으킴"], a:0,
+     e:"경구피임법은 임신을 피하기 위한 약물 요법이고, 복합경구피임제는 주로 배란을 억제해서 효과를 냅니다."},
+    {q:"3개월마다 맞는 데포-프로베라 같은 피임용 주사제를 사용하려면 꼭 필요한 것은?",
+     o:["매일 아침 공복에 복용하기","성교 직전에 질 안에 넣기","의사의 처방","생리 시작과 함께 스스로 붙이기"], a:2,
+     e:"피임용 주사제(데포-프로베라, MPA 등)는 의사 처방이 필요합니다."},
+    {q:"길이 4cm, 두께 2mm의 막대 모양으로 상완의 피하에 삽입하는 임플라논의 피임 효과는 얼마나 유지되나요?",
+     o:["3개월","3년","7년","평생"], a:1,
+     e:"임플라논은 피하 이식 피임기구이며 피임 효과가 3년간 유지됩니다."},
+    {q:"피임 패치의 사용 방법으로 알맞은 것은?",
+     o:["하루에 한 장씩 7일 붙이고 3주 쉰다","한 번 붙이면 3년 동안 유지된다","3주에 한 장씩 붙이고 1주 쉰다","1주일에 한 장씩 3주간 붙이고 1주간 쉰다"], a:3,
+     e:"생리주기 첫 날부터 둔부, 복부 등에 1주일에 한 장씩 3주간 붙이고 1주간 휴지기를 갖습니다."},
+    {q:"T자형 플라스틱 장치인 미레나가 매일 일정한 양을 자궁내막에 직접 분비하는 호르몬은?",
+     o:["레보노게스트렐","노녹시놀-9","시피온산 에스트라디올","옥토시놀-9"], a:0,
+     e:"미레나는 호르몬 저장소가 있는 자궁 내 장치로, 레보노게스트렐을 자궁내막에 분비합니다. 노녹시놀-9와 옥토시놀-9는 살정제 성분입니다."},
+    {q:"플라스틱 몸체에 실이 붙어 있어 제거할 수 있는 자궁 내 장치의 피임 원리는?",
+     o:["배란을 억제한다","정자를 죽이는 약물을 분비한다","자궁내막에 국소적인 이물 반응을 일으켜 수정을 방해한다","정액이 질 안으로 들어오는 것을 막는다"], a:2,
+     e:"자궁 내 장치는 자궁내막에 국소적인 이물 반응을 일으켜 수정을 방해함으로써 피임 효과를 나타냅니다."},
+    {q:"여성용 콘돔의 특징으로 알맞은 것은?",
+     o:["얇은 고무 주머니로 음경에 씌운다","폴리우레탄 재질로 질 안에 삽입하며, 양 끝에 둥근 플라스틱 링이 있다","반구형 고무 기구로 자궁경부 입구를 막는다","T자형 플라스틱 장치에서 호르몬이 나온다"], a:1,
+     e:"여성용 콘돔은 남성용보다 크고, 양 끝에 둥근 플라스틱 링이 달린 폴리우레탄 재질입니다. 음경에 씌우는 것은 남성용 콘돔, 자궁경부를 막는 것은 페서리, T자형 호르몬 장치는 미레나입니다."},
+    {q:"성교 전 여성이 스스로 질 내에 착용하여 자궁경부 입구를 막아 정자의 진입을 차단하는 반구형 고무 피임기구는?",
+     o:["임플라논","피임 패치","살정제","페서리"], a:3,
+     e:"페서리는 고무로 된 반구형 피임기구로, 자궁경부의 입구를 막아 정자의 진입을 차단합니다."},
+    {q:"배란기를 피하여 성교를 하는 방법으로, 첫 1년간 임신율이 25%에 달할 정도로 피임 실패율이 높은 방법은?",
+     o:["남성용 콘돔","월경 주기 조절법","임플라논","피임용 질 링"], a:1,
+     e:"월경 주기 조절법은 난자가 배란 후 12~24시간 동안 수정이 가능하다는 점을 이용하지만, 피임 실패율이 높습니다."},
+    {q:"성교 후 응급 피임약은 효과를 위해 늦어도 얼마 이내에 복용해야 하나요?",
+     o:["12시간","24시간","72시간","7일"], a:2,
+     e:"응급 피임약은 늦어도 72시간 내에 복용해야 효과가 있고, 복용 후 3주 뒤에도 생리가 나오지 않으면 임신 여부를 꼭 확인해야 합니다."}
+  ];
+
+  var $ = function(id){ return document.getElementById(id); };
+  var secStart=$("start"), secQuiz=$("quiz"), secRes=$("result"), prog=$("prog");
+  var order, idx, score, wrong, locked, answered;
+
+  function shuffle(arr){
+    var a = arr.slice();
+    for(var i=a.length-1;i>0;i--){
+      var j=Math.floor(Math.random()*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t;
+    }
+    return a;
+  }
+  function show(which){
+    secStart.hidden = which!=="start";
+    secQuiz.hidden  = which!=="quiz";
+    secRes.hidden   = which!=="result";
+    prog.hidden     = which!=="quiz";
+    window.scrollTo(0,0);
+  }
+
+  function begin(list){
+    order = list.map(function(q){
+      /* 보기 순서는 매번 섞는다 */
+      var opts = shuffle(q.o.map(function(t,i){ return {t:t, ok:i===q.a}; }));
+      return {q:q.q, e:q.e, opts:opts, src:q};
+    });
+    order = shuffle(order);
+    idx = 0; score = 0; wrong = [];
+    show("quiz");
+    draw();
+  }
+
+  function draw(){
+    var cur = order[idx];
+    answered = false;
+    $("pcount").textContent = (idx+1) + " / " + order.length;
+    $("pfill").style.width = (idx/order.length*100) + "%";
+    $("ppts").textContent = score + "점";
+    $("qno").textContent = "문제 " + (idx+1);
+    $("qtext").textContent = cur.q;
+    var box = $("opts"); box.innerHTML = "";
+    cur.opts.forEach(function(op, i){
+      var b = document.createElement("button");
+      b.className = "opt";
+      b.innerHTML = '<span class="n"></span><span class="t"></span><span class="mk" aria-hidden="true"></span>';
+      b.querySelector(".n").textContent = i+1;
+      b.querySelector(".t").textContent = op.t;
+      b.addEventListener("click", function(){ choose(i); });
+      box.appendChild(b);
+    });
+    $("fb").hidden = true;
+    $("next").hidden = true;
+  }
+
+  function choose(i){
+    if(answered) return;
+    answered = true;
+    var cur = order[idx];
+    var btns = $("opts").querySelectorAll(".opt");
+    var right = cur.opts[i].ok;
+    btns.forEach(function(b, k){
+      b.disabled = true;
+      if(cur.opts[k].ok){ b.classList.add("ok"); b.querySelector(".mk").textContent = "✅"; }
+      else if(k===i){ b.classList.add("no"); b.querySelector(".mk").textContent = "❌"; }
+      else{ b.classList.add("dim"); }
+    });
+    if(right){ score++; }
+    else{ wrong.push({cur:cur, pick:cur.opts[i].t}); }
+    $("ppts").textContent = score + "점";
+    var fb = $("fb");
+    fb.className = "fb " + (right ? "ok" : "no");
+    fb.innerHTML = "<b></b><span></span>";
+    fb.querySelector("b").textContent = right ? "정답이에요! 🎉" : "아쉬워요, 다시 확인해 봐요";
+    fb.querySelector("span").textContent = cur.e;
+    fb.hidden = false;
+    var nx = $("next");
+    nx.textContent = (idx === order.length-1) ? "결과 보기" : "다음 문제";
+    nx.hidden = false;
+    nx.scrollIntoView({block:"nearest", behavior:"smooth"});
+  }
+
+  $("next").addEventListener("click", function(){
+    if(idx < order.length-1){ idx++; draw(); window.scrollTo(0,0); }
+    else{ finish(); }
+  });
+
+  function finish(){
+    show("result");
+    var n = order.length;
+    $("sc").textContent = score;
+    var nm = ($("who").value.trim()), cl = ($("cls").value.trim());
+    $("rwho").textContent = [cl, nm].filter(Boolean).join("  ");
+    var msg;
+    if(score === n) msg = "만점이에요! 🎉";
+    else if(score >= n*0.8) msg = "아주 잘했어요 👏";
+    else if(score >= n*0.6) msg = "잘했어요, 조금만 더 힘내요!";
+    else msg = "교과서 표를 다시 읽고 도전해 봐요 💪";
+    $("rmsg").textContent = msg;
+
+    var rev = $("rev"); rev.innerHTML = "";
+    if(!wrong.length){
+      rev.innerHTML = '<div class="allok">틀린 문제가 없어요! ✅</div>';
+      $("wrongOnly").hidden = true;
+    }else{
+      var h = document.createElement("h2"); h.textContent = "틀린 문제 다시 보기";
+      rev.appendChild(h);
+      wrong.forEach(function(w){
+        var d = document.createElement("div"); d.className = "item";
+        d.innerHTML = '<div class="q"></div><div class="you"></div><div class="a"></div>';
+        d.querySelector(".q").textContent = w.cur.q;
+        d.querySelector(".you").textContent = "❌ 내 답: " + w.pick;
+        var right = w.cur.opts.filter(function(o){ return o.ok; })[0].t;
+        d.querySelector(".a").textContent = "✅ 정답: " + right;
+        rev.appendChild(d);
+      });
+      $("wrongOnly").hidden = false;
+    }
+  }
+
+  $("go").addEventListener("click", function(){ begin(ALL); });
+  $("again").addEventListener("click", function(){ begin(ALL); });
+  $("wrongOnly").addEventListener("click", function(){
+    begin(wrong.map(function(w){ return w.cur.src; }));
+  });
+})();
+</script>
+</body>
+</html>

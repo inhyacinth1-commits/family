@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>피임법의 종류 학습지</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#FBFAF7">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap">
+<style>
+  :root{
+    --ink:#3B3A38;
+    --muted:#8B887F;
+    --paper:#FBFAF7;
+    --line:#EAE6DD;
+    --accent:#483D79;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%;scroll-padding-top:84px}
+  body{
+    margin:0;background:var(--paper);color:var(--ink);
+    font-family:"Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;
+    font-size:19px;line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+    padding-bottom:calc(40px + env(safe-area-inset-bottom));
+  }
+  .wrap{max-width:720px;margin:0 auto;padding:0 16px}
+
+  /* ── 위쪽 고정 진행 표시 ── */
+  .progress{
+    position:sticky;top:0;z-index:10;
+    padding:calc(10px + env(safe-area-inset-top)) 16px 10px;
+    background:rgba(251,250,247,.94);
+    -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  .progress .inner{max-width:720px;margin:0 auto;display:flex;align-items:center;gap:12px}
+  .progress .txt{flex:0 0 auto;font-size:17px;font-weight:700;color:var(--accent)}
+  .bar{flex:1 1 auto;height:12px;border-radius:99px;background:var(--line);overflow:hidden}
+  .bar i{display:block;height:100%;width:0;background:#7BB89B;border-radius:99px;transition:width .3s}
+
+  header{text-align:center;padding:26px 0 8px}
+  .kicker{
+    display:inline-block;margin:0 0 10px;padding:5px 14px 6px;border-radius:4px;
+    background:#fff;border:1px solid var(--line);
+    font-size:14px;font-weight:600;letter-spacing:.1em;color:var(--muted);
+  }
+  h1{
+    margin:0;font-family:"Gowun Batang",serif;
+    font-size:34px;font-weight:700;letter-spacing:-0.02em;line-height:1.2;
+  }
+  .guide{
+    margin:12px 0 0;color:var(--muted);
+    font-family:"Gowun Batang",serif;font-size:19px;word-break:keep-all;
+  }
+
+  /* ── 내 정보 ── */
+  .me{
+    display:grid;grid-template-columns:1fr;gap:14px;
+    margin:20px 0 8px;padding:16px;
+    background:#fff;border:1px solid var(--line);border-radius:10px;
+  }
+  .me label{display:block;font-size:16px;font-weight:700;color:var(--muted);margin-bottom:6px}
+  .me .full{grid-column:1 / -1}
+
+  input[type=text],textarea{
+    width:100%;font-family:inherit;color:var(--ink);
+    font-size:20px;line-height:1.55;
+    padding:14px 16px;
+    border:2px solid var(--line);border-radius:10px;background:var(--paper);
+    -webkit-appearance:none;appearance:none;
+  }
+  input[type=text]:focus,textarea:focus{
+    outline:none;border-color:var(--deep,var(--accent));background:#fff;
+  }
+
+  /* ── 문항 카드 ── */
+  .q{
+    margin:18px 0;padding:18px 16px 16px;
+    background:var(--tintA);border:1.5px solid var(--tintB);border-radius:12px;
+    color:var(--deep);
+  }
+  .q.done{border-color:var(--deep)}
+  .q .head{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+  .q .no{
+    flex:0 0 auto;width:42px;height:42px;border-radius:50%;
+    display:grid;place-items:center;
+    background:var(--deep);color:#fff;font-size:20px;font-weight:700;
+  }
+  .q .name{
+    flex:1 1 auto;min-width:0;
+    font-size:25px;font-weight:700;letter-spacing:-0.02em;line-height:1.25;
+    word-break:keep-all;
+  }
+  .q .check{flex:0 0 auto;font-size:26px;opacity:0;transition:opacity .2s}
+  .q.done .check{opacity:1}
+  .q .ask{margin:0 0 10px;font-size:17px;font-weight:600;opacity:.75;word-break:keep-all}
+  textarea{
+    display:block;min-height:170px;resize:vertical;background:#fff;
+    border-color:rgba(0,0,0,.08);
+  }
+  textarea::placeholder{color:#B5B1A7}
+
+  /* ── 아래 버튼 ── */
+  .actions{margin:30px 0 0;display:flex;flex-direction:column;gap:12px}
+  button{
+    font-family:inherit;font-size:21px;font-weight:700;
+    min-height:62px;padding:14px 18px;border-radius:12px;
+    border:2px solid var(--ink);background:#fff;color:var(--ink);cursor:pointer;
+  }
+  button:active{transform:scale(.98)}
+  button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+  .btn-main{background:var(--ink);color:#fff}
+  .btn-quiet{border-color:var(--line);color:var(--muted);font-size:17px;min-height:50px;font-weight:600}
+  .hint{margin:4px 0 0;text-align:center;color:var(--muted);font-size:16px;word-break:keep-all}
+
+  .toast{
+    position:fixed;left:50%;bottom:calc(28px + env(safe-area-inset-bottom));
+    transform:translateX(-50%);
+    background:var(--ink);color:#fff;padding:14px 22px;border-radius:10px;
+    font-size:18px;font-weight:600;opacity:0;pointer-events:none;
+    transition:opacity .2s;z-index:99;white-space:nowrap;
+  }
+  .toast.on{opacity:1}
+
+  @media (max-width:380px){
+    body{font-size:18px}
+    h1{font-size:30px}
+    .q .name{font-size:23px}
+  }
+</style>
+</head>
+<body>
+
+<div class="progress" aria-live="polite">
+  <div class="inner">
+    <span class="txt" id="count">0 / 13</span>
+    <div class="bar"><i id="fill"></i></div>
+  </div>
+</div>
+
+<div class="wrap">
+  <header>
+    <span class="kicker">학습지</span>
+    <h1>피임법의 종류</h1>
+    <p class="guide">교과서 (나) 표를 보고,<br>각 피임법이 어떤 방법인지<br>내 말로 적어 봐요.</p>
+  </header>
+
+  <section class="me" aria-label="내 정보">
+    <div>
+      <label for="cls">학년 반 번호</label>
+      <input type="text" id="cls" inputmode="numeric" autocomplete="off" placeholder="예) 2학년 3반 15번">
+    </div>
+    <div>
+      <label for="who">이름</label>
+      <input type="text" id="who" autocomplete="name" placeholder="이름">
+    </div>
+  </section>
+
+  <main id="list"></main>
+
+  <div class="actions">
+    <button class="btn-main" id="copy">📋 내 답 복사하기</button>
+    <button id="save">💾 내 답 파일로 저장</button>
+    <p class="hint">복사한 답은 선생님이 알려 주신 곳에<br>붙여넣기 해서 제출하세요.</p>
+    <button class="btn-quiet" id="clear">처음부터 다시 쓰기</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+  var KEY = "piim-worksheet.v1";
+  var TITLE = "피임법의 종류";
+  var ITEMS = [
+    "경구피임법","피임용 주사제","임플라논","피임 패치","피임용 질 링",
+    "미레나","자궁 내 장치","남성용 콘돔","여성용 콘돔","페서리",
+    "살정제","월경 주기 조절법","사후피임(응급 피임)"
+  ];
+  var PALETTE = [
+    {a:"#EEEAFA",b:"#DFD9F2",deep:"#483D79"},
+    {a:"#EDF6F0",b:"#D5E9DD",deep:"#33604D"},
+    {a:"#FBF3E1",b:"#F2E3C2",deep:"#6D5527"},
+    {a:"#FCEFE8",b:"#F5DCCF",deep:"#7E4835"}
+  ];
+
+  var listEl = document.getElementById("list");
+  var countEl = document.getElementById("count");
+  var fillEl = document.getElementById("fill");
+  var toastEl = document.getElementById("toast");
+  var clsEl = document.getElementById("cls");
+  var whoEl = document.getElementById("who");
+
+  var state = load();
+  var areas = [], cards = [];
+
+  ITEMS.forEach(function(name, i){
+    var c = PALETTE[i % PALETTE.length];
+    var card = document.createElement("section");
+    card.className = "q";
+    card.style.setProperty("--tintA", c.a);
+    card.style.setProperty("--tintB", c.b);
+    card.style.setProperty("--deep", c.deep);
+    card.innerHTML =
+      '<div class="head"><span class="no"></span><span class="name"></span><span class="check" aria-hidden="true">✅</span></div>' +
+      '<p class="ask">어떤 방법인가요? 특징을 적어 보세요.</p>' +
+      '<textarea rows="5" aria-label=""></textarea>';
+    card.querySelector(".no").textContent = i + 1;
+    card.querySelector(".name").textContent = name;
+    var ta = card.querySelector("textarea");
+    ta.setAttribute("aria-label", name + " 답 적는 칸");
+    ta.placeholder = "여기에 적어요";
+    ta.value = state.answers[i] || "";
+    ta.addEventListener("input", function(){
+      state.answers[i] = ta.value;
+      save(); refresh();
+    });
+    listEl.appendChild(card);
+    areas.push(ta); cards.push(card);
+  });
+
+  clsEl.value = state.cls || "";
+  whoEl.value = state.who || "";
+  clsEl.addEventListener("input", function(){ state.cls = clsEl.value; save(); });
+  whoEl.addEventListener("input", function(){ state.who = whoEl.value; save(); });
+  refresh();
+
+  function refresh(){
+    var n = 0;
+    areas.forEach(function(ta, i){
+      var done = ta.value.trim().length > 0;
+      if(done) n++;
+      cards[i].classList.toggle("done", done);
+    });
+    countEl.textContent = n + " / " + ITEMS.length;
+    fillEl.style.width = (n / ITEMS.length * 100) + "%";
+  }
+
+  function load(){
+    try{
+      var raw = localStorage.getItem(KEY);
+      if(raw){
+        var p = JSON.parse(raw);
+        if(p && Array.isArray(p.answers)) return p;
+      }
+    }catch(e){}
+    return {cls:"", who:"", answers:[]};
+  }
+  function save(){
+    try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){}
+  }
+
+  function toast(msg){
+    toastEl.textContent = msg;
+    toastEl.classList.add("on");
+    clearTimeout(toast.t);
+    toast.t = setTimeout(function(){ toastEl.classList.remove("on"); }, 2000);
+  }
+
+  function buildText(){
+    var out = "[" + TITLE + "]\n";
+    out += (clsEl.value.trim() || "(학년 반 번호)") + "  " + (whoEl.value.trim() || "(이름)") + "\n\n";
+    ITEMS.forEach(function(name, i){
+      out += (i + 1) + ". " + name + "\n";
+      out += (areas[i].value.trim() || "(아직 안 썼어요)") + "\n\n";
+    });
+    return out.replace(/\s+$/, "") + "\n";
+  }
+
+  function copyText(text){
+    var ta = document.createElement("textarea");
+    ta.value = text;
+    ta.style.position = "fixed"; ta.style.opacity = "0";
+    document.body.appendChild(ta);
+    ta.select(); ta.setSelectionRange(0, 999999);
+    var ok = false;
+    try{ ok = document.execCommand("copy"); }catch(e){}
+    document.body.removeChild(ta);
+    if(ok){ toast("복사했어요 ✅"); return; }
+    if(navigator.clipboard){
+      navigator.clipboard.writeText(text).then(
+        function(){ toast("복사했어요 ✅"); },
+        function(){ toast("복사가 안 돼요. 파일로 저장해 주세요"); });
+    }else{
+      toast("복사가 안 돼요. 파일로 저장해 주세요");
+    }
+  }
+
+  document.getElementById("copy").addEventListener("click", function(){
+    copyText(buildText());
+  });
+
+  document.getElementById("save").addEventListener("click", function(){
+    var text = buildText();
+    var nm = (whoEl.value.trim() || "내답").replace(/[\\/:*?"<>|]/g, "");
+    try{
+      var blob = new Blob([text], {type:"text/plain;charset=utf-8"});
+      var a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = "피임법_학습지_" + nm + ".txt";
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(function(){ URL.revokeObjectURL(a.href); document.body.removeChild(a); }, 500);
+      toast("파일로 저장했어요 💾");
+    }catch(e){
+      toast("저장이 안 돼요. 복사하기를 써 주세요");
+    }
+  });
+
+  document.getElementById("clear").addEventListener("click", function(){
+    if(!confirm("쓴 내용을 모두 지우고 처음부터 다시 쓸까요?")) return;
+    state = {cls:"", who:"", answers:[]};
+    areas.forEach(function(ta){ ta.value = ""; });
+    clsEl.value = ""; whoEl.value = "";
+    save(); refresh();
+    window.scrollTo(0, 0);
+    toast("모두 지웠어요");
+  });
+})();
+</script>
+</body>
+</html>
